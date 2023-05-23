@@ -1,22 +1,39 @@
-function BankAccount (customerName , balance = 0){
-          this.customerName = customerName;
-          this.accountNumber = Date.now();
-          this.balance = balance;
+function BankAccount(customerName, balance = 0) {
+  this.customerName = customerName;
+  this.accountNumber = Date.now();
+  this.balance = balance;
 
-          this.deposite = function(amount){
-                    this.balance += amount;
-          }
+  this.deposit = function (amount) {
+    this.balance += amount;
+  };
 
-          this.withdraw = (amount) => {
-                    this.balance -= amount;
-          }
+  this.withdraw = (amount) => {
+    this.balance -= amount;
+  };
 }
+//=================================================//
 
-const rakeshAccount = new BankAccount('Rakesh K' , 1000);
-const johnAccount = new BankAccount('John Doe');
-rakeshAccount.deposite(5000);
-johnAccount.deposite(1000);
-rakeshAccount.withdraw(2000);
-johnAccount.withdraw(200);
+const accounts = [];
+const accountForm = document.querySelector("#accountForm");
+const customerName = document.querySelector("#customerName");
+const balance = document.querySelector("#balance");
 
-console.log(rakeshAccount , johnAccount);
+const depositForm = document.querySelector("#depositForm");
+const accountNumber = document.querySelector("#accountNumber");
+const amount = document.querySelector("#amount");
+
+accountForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const account = new BankAccount(customerName.value, +balance.value);
+  accounts.push(account);
+  console.log(accounts);
+});
+
+depositForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const account = accounts.find(
+    (account) => account.accountNumber === +accountNumber.value
+  );
+  account.deposit(+amount.value);
+  console.log(accounts);
+});
